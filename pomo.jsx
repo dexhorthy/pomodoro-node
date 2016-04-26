@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
 
-class MyApp extends Component {
+class Pomo extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {state: 'working', ticks: 0}
         const ival = setInterval(() => {this.tick();}, props.ticksecs * 1000);
         this.state.ival = ival;
@@ -123,16 +122,14 @@ class MyApp extends Component {
           this.state.state === 'working' ? this.workingBox() :
           (this.state.state === 'breaking' ? this.breakingBox() : this.readyBox());
 
-      return (
-          <box label={'Pomodoro -- ' + this.state.state}
-               border={{type: 'none'}}
-               style={{
-                    border: {fg: boxColor},
-                    bg: boxColor
-               }}>
+      const app = (
+          <box style={{ bg: boxColor }}
+                keyable="true">
                {box}
-      </box>
-    );
+          </box>
+      );
+
+      return app;
   }
 }
 
@@ -147,7 +144,13 @@ screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
 });
 
-const component = render(<MyApp
+const _tick = c => {c.tick()};
+
+const component = render(<Pomo
                          ticks={100}
                          ticksecs={15}
                          breakticks={20} />, screen);
+
+screen.key(['enter'],function(ch, key) {
+    _tick(component);
+});
