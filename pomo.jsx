@@ -148,6 +148,7 @@ const screen = blessed.screen({
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+    exec('slackSup');
   return process.exit(0);
 });
 
