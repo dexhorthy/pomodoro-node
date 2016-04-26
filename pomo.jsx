@@ -66,6 +66,17 @@ class Pomo extends Component {
         }
     }
 
+    elapsed() {
+        const secs = (this.state.ticks * this.props.ticksecs);
+        const mins = Math.floor(secs / 60);
+        const remainder = secs % 60;
+        if (remainder == 0) {
+            return mins + ":00";
+        }
+
+        return mins + ":" + remainder;
+    }
+
     readyBox() {
         return (
             <bigtext content="READY"
@@ -92,11 +103,11 @@ class Pomo extends Component {
                         left="center"
                         height="15%"
                         width="80%"
-                         clickable={true}
-                         keyable={true}
-                         onClick={() => {this.tick()}}
-                         onInput={() => {this.tick()}}
-                        label={this.state.ticks / 4 + "m"}
+                        clickable={true}
+                        keyable={true}
+                        onClick={() => {this.tick()}}
+                        onInput={() => {this.tick()}}
+                        label={this.elapsed()}
                         border={{type: 'line'}}
                         style={{border: {fg: 'red'}, bar: {bg: 'red'}}} />
         )
@@ -110,11 +121,11 @@ class Pomo extends Component {
                         left="center"
                         height="15%"
                         width="80%"
-                         clickable={true}
-                         keyable={true}
-                         onClick={() => {this.tick()}}
-                         onInput={() => {this.tick()}}
-                        label={this.state.ticks / 4 + "m"}
+                        clickable={true}
+                        keyable={true}
+                        onClick={() => {this.tick()}}
+                        onInput={() => {this.tick()}}
+                        label={this.elapsed()}
                         border={{type: 'line'}}
                         style={{border: {fg: 'blue'}, bar: {bg: 'blue'}}} />
         )
