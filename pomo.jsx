@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
+import {exec} from 'child_process';
 
 class Pomo extends Component {
 
@@ -9,6 +10,7 @@ class Pomo extends Component {
         this.state = {state: 'working', ticks: 0}
         const ival = setInterval(() => {this.tick();}, props.ticksecs * 1000);
         this.state.ival = ival;
+        exec('slackDnd');
 
     }
 
@@ -23,6 +25,8 @@ class Pomo extends Component {
                     ticks: this.state.ticks + 1
                 });
             } else {
+                exec('say take a break');
+                exec('slackSup');
                 clearInterval(this.state.ival);
                 this.setState({
                     state: 'breaking',
@@ -41,13 +45,16 @@ class Pomo extends Component {
                     ticks: this.state.ticks + 1
                 });
             } else {
+                exec('say back to work');
                 clearInterval(this.state.ival);
                 this.setState({
                     state: 'ready',
                     ticks: 0
                 });
+                setTimeout(() => {exec('say ready?')}, 2000);
             }
         } else {
+                exec('slackDnd');
                 this.setState({
                     state: 'working',
                     ticks: 0
@@ -137,7 +144,7 @@ class Pomo extends Component {
 const screen = blessed.screen({
   autoPadding: true,
   smartCSR: true,
-  title: 'react-blessed demo app'
+  title: 'pomo'
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
@@ -151,6 +158,6 @@ const component = render(<Pomo
                          ticksecs={15}
                          breakticks={20} />, screen);
 
-screen.key(['enter'],function(ch, key) {
+screen.key(['enter', 'space'],function(ch, key) {
     _tick(component);
 });
