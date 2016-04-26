@@ -66,8 +66,15 @@ class Pomo extends Component {
         }
     }
 
-    elapsed() {
-        const secs = (this.state.ticks * this.props.ticksecs);
+    elapsed(max) {
+        let secs;
+
+        if (max) {
+            secs = max - (this.state.ticks * this.props.ticksecs);
+        } else {
+            secs = (this.state.ticks * this.props.ticksecs);
+        }
+
         const mins = Math.floor(secs / 60);
         const remainder = secs % 60;
         if (remainder == 0) {
@@ -125,7 +132,7 @@ class Pomo extends Component {
                         keyable={true}
                         onClick={() => {this.tick()}}
                         onInput={() => {this.tick()}}
-                        label={this.elapsed()}
+                        label={this.elapsed(this.props.breakticks * this.props.ticksecs)}
                         border={{type: 'line'}}
                         style={{border: {fg: 'blue'}, bar: {bg: 'blue'}}} />
         )
