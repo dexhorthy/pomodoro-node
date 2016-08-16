@@ -10,7 +10,7 @@ class Pomo extends Component {
         this.state = {state: 'working', ticks: 0}
         const ival = setInterval(() => {this.tick();}, props.ticksecs * 1000);
         this.state.ival = ival;
-        exec('slackDnd');
+        exec('slackDnd'); // set slack status to offline
 
     }
 
@@ -25,8 +25,8 @@ class Pomo extends Component {
                     ticks: this.state.ticks + 1
                 });
             } else {
-                exec('say take a break');
-                exec('slackSup');
+                exec('say take a break'); // osx only
+                exec('slackSup'); // set slack status to available
                 clearInterval(this.state.ival);
                 this.setState({
                     state: 'breaking',
@@ -45,16 +45,16 @@ class Pomo extends Component {
                     ticks: this.state.ticks + 1
                 });
             } else {
-                exec('say back to work');
+                exec('say back to work'); // osx only
                 clearInterval(this.state.ival);
                 this.setState({
                     state: 'ready',
                     ticks: 0
                 });
-                setTimeout(() => {exec('say ready?')}, 2000);
+                setTimeout(() => {exec('say ready?')}, 2000); // osx only
             }
         } else {
-                exec('slackDnd');
+                exec('slackDnd'); // set slack status to offline
                 this.setState({
                     state: 'working',
                     ticks: 0
@@ -166,7 +166,7 @@ const screen = blessed.screen({
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-    exec('slackSup');
+    exec('slackSup'); // set slack status to available
   return process.exit(0);
 });
 
